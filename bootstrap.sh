@@ -69,6 +69,12 @@ while IFS=$'\t' read -r dirname repo; do
   fi
 done < "$INSTALL_ROOT/custom_nodes.tsv"
 
+log "Applying LTXVideo Kornia compatibility fix"
+"$PYTHON_BIN" -m pip install --disable-pip-version-check --upgrade "kornia<0.8.3"
+
+# Install registry-only nodes through the Manager CLI if available.
+MANAGER_DIR=""
+
 # Install registry-only nodes through the Manager CLI if available.
 MANAGER_DIR=""
 for p in "$COMFYUI_DIR/custom_nodes/ComfyUI-Manager" "$COMFYUI_DIR/custom_nodes/comfyui-manager"; do
@@ -132,6 +138,13 @@ while IFS=$'\t' read -r rel _url _auth; do
 done < "$INSTALL_ROOT/models.tsv"
 [[ "$missing" == 0 ]] || die "One or more model downloads failed."
 
-log "Setup complete. Starting ComfyUI on port $COMFY_PORT"
-cd "$COMFYUI_DIR"
-exec "$PYTHON_BIN" main.py --listen 0.0.0.0 --port "$COMFY_PORT"
+log "Setup complete."
+
+if ss -ltn 2>/dev/null | grep -q ":${COMFY_PORT} "; then
+  log "ComfyUI is already running on port $COMFY_PORT."
+  log "Restart ComfyUI from the RunPod interface so it loads the newly installed nodes."
+else
+  log "Starting ComfyUI on port $COMFY_PORT"
+  cd "$COMFYUI_DIR"
+  exec "$PYTHON_BIN" main.py --listen 0.0.0.0 --port "$COMFY_PORT"
+fi
