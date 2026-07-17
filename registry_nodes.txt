@@ -1,0 +1,6 @@
+# Installed through ComfyUI-Manager when not supplied by a reliable Git URL.
+comfyui-resolution-master
+comfyui_nvidia_rtx_nodes
+crt-nodes
+listhelper
+WhatDreamsCost-ComfyUI
