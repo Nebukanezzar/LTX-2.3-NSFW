@@ -1,0 +1,2 @@
+# Installed/check through ComfyUI-Manager when available.
+comfyui_nvidia_rtx_nodes
