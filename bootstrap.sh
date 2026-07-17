@@ -61,12 +61,30 @@ while IFS=$'\t' read -r dirname repo; do
     log "Installing node: $dirname"
     git clone --depth 1 "$repo" "$target"
   fi
+  if [[ "$dirname" == "ComfyUI-Impact-Pack" ]]; then
+  log "Installing Impact Pack without SAM2 to preserve CUDA 13 PyTorch"
+
+  grep -v \
+    -e 'facebookresearch/sam2' \
+    -e '^sam2' \
+    "$target/requirements.txt" > /tmp/impact-pack-requirements.txt
+
+  "$PYTHON_BIN" -m pip install \
+    --disable-pip-version-check \
+    -r /tmp/impact-pack-requirements.txt
+
+  log "Skipping Impact Pack install.py because it may reinstall SAM2 or alter PyTorch"
+else
   if [[ -f "$target/requirements.txt" ]]; then
-    "$PYTHON_BIN" -m pip install --disable-pip-version-check -r "$target/requirements.txt"
+    "$PYTHON_BIN" -m pip install \
+      --disable-pip-version-check \
+      -r "$target/requirements.txt"
   fi
+
   if [[ -f "$target/install.py" ]]; then
     (cd "$target" && "$PYTHON_BIN" install.py) || true
   fi
+fi
 done < "$INSTALL_ROOT/custom_nodes.tsv"
 
 log "Applying LTXVideo Kornia compatibility fix"
