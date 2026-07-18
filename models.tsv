@@ -1,5 +1,5 @@
 # relative_destination	url	auth	minimum_bytes
-models/diffusion_models/ltx2310eros_v12.safetensors	https://civitai.red/api/download/models/3043807?fileId=2922592	civitai	30000000000
+models/diffusion_models/ltx2310eros_v12.safetensors	https://civitai.com/api/download/models/3043807?fileId=2922592	civitai	1000000000
 models/text_encoders/gemma_3_12B_it_fp8_scaled.safetensors	https://huggingface.co/Comfy-Org/ltx-2/resolve/main/split_files/text_encoders/gemma_3_12B_it_fp8_scaled.safetensors?download=true	huggingface	10000000000
 models/text_encoders/ltx-2.3_text_projection_bf16.safetensors	https://huggingface.co/Kijai/LTX2.3_comfy/resolve/main/text_encoders/ltx-2.3_text_projection_bf16.safetensors?download=true	huggingface	100000000
 models/vae/LTX23_video_vae_bf16.safetensors	https://huggingface.co/Kijai/LTX2.3_comfy/resolve/main/vae/LTX23_video_vae_bf16.safetensors?download=true	huggingface	100000000
